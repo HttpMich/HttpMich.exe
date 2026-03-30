@@ -47,14 +47,23 @@ async function likePost(postId, btn) {
     return;
   }
 
-  await supabase.rpc("increment_likes", { post_id: postId });
+  // Update directo sin RPC
+  const { data: post } = await supabase
+    .from("posts")
+    .select("likes")
+    .eq("id", postId)
+    .single();
+
+  await supabase
+    .from("posts")
+    .update({ likes: (post.likes || 0) + 1 })
+    .eq("id", postId);
 
   btn.classList.add("liked");
   btn.disabled = true;
   const counter = btn.querySelector(".like-count");
   counter.textContent = parseInt(counter.textContent) + 1;
 }
-
 async function loadPosts() {
   const { data, error } = await supabase
     .from("posts")
@@ -105,7 +114,27 @@ async function loadPosts() {
 }
 
 async function loadVisitors() {
-  await supabase.rpc("increment_visitors", { visitor_fingerprint: fingerprint });
+  const { data: existing } = await supabase
+    .from("visitors_log")
+    .select("id")
+    .eq("fingerprint", fingerprint)
+    .maybeSingle();
+
+  if (!existing) {
+    await supabase
+      .from("visitors_log")
+      .insert({ fingerprint });
+
+    const { data: visitors } = await supabase
+      .from("visitors")
+      .select("count")
+      .single();
+
+    await supabase
+      .from("visitors")
+      .update({ count: (visitors.count || 0) + 1 })
+      .eq("id", 1);
+  }
 
   const { data, error } = await supabase
     .from("visitors")
