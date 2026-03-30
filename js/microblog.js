@@ -1,7 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
 window.supabase = createClient(
-  'https://slshszobaevzclajcjly.supabase.co',
+  'https://esm.sh/@supabase/supabase-js@2.49.4',
   'sb_publishable_fXn10Msj6ixZkzj8J6rC3Q_03CORkoh'
 );
 
