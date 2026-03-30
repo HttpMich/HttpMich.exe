@@ -2,7 +2,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.4'
 
 window.supabase = createClient(
   'https://slshszobaevzclajcjly.supabase.co',
-  'sb_publishable_fXn10Msj6ixZkzj8J6rC3Q_03CORkoh'
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNsc2hzem9iYWV2emNsYWpjamx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjE1NTcsImV4cCI6MjA5MDIzNzU1N30.wIppeHPabfdSPQ2FrnXt_1MSxfTJe_ci_7gns0DkLyo'
 );
 
 console.log("Proyecto conectado:", supabase.supabaseUrl);
